@@ -97,24 +97,30 @@ function addTodo() {
 
 function editTodo() {
   if (todoList.length === 0) {
-    throw Error ('Não há itens na lista.');
+    console.log('Não há itens na lista.');
   } else {
     console.log('Informe o ID do todo:');
     console.log('(Exemplo: digite 1 para editar o primeiro todo)');
+    listTodo(); // Listar antes de solicitar o ID
+
     const todoID = Number(prompt());
-  
     const index = todoID - 1;
-  
+
     try {
       if (!todoID || todoID !== parseInt(todoID) || todoList.length <= index) {
-        throw Error ('ID inválido.');
+        throw Error('ID inválido.');
       } else {
-        const editTodo = prompt('Edite o seu todo: ');
+        let editTodo;
         do {
-          if (!editTodo.trim()) {
+          editTodo = prompt('Edite o seu todo: ');
+          if (editTodo === null) {
+            console.log('Edição cancelada.');
+            return; 
+          }
+          if (editTodo.trim() === '') {
             console.log('Por favor, insira um todo válido.');
           }
-        } while (!editTodo.trim());
+        } while (editTodo.trim() === '');
 
         let editHour;
         do {
@@ -126,20 +132,19 @@ function editTodo() {
           if (!/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(editHour.trim())) {
             console.log('Por favor, insira um horário válido no formato HH:MM.');
           }
-
         } while (!editHour.trim() || !/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(editHour.trim()));
-    
+
         todoList[index].todo = editTodo;
         todoList[index].hour = editHour;
-    
+
         console.log('Todo editado com sucesso');
       }
     } catch (e) {
       console.log(e.message);
-      editTodo();
     }
   }
 }
+
 
 function removeTodo() {
   if (todoList.length === 0) {

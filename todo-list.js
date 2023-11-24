@@ -110,14 +110,29 @@ function editTodo() {
         throw Error ('ID inválido.');
       } else {
         const editTodo = prompt('Edite o seu todo: ');
-        const editHour = prompt('Edite o horário do todo: ');
+        do {
+          if (!editTodo.trim()) {
+            console.log('Por favor, insira um todo válido.');
+          }
+        } while (!editTodo.trim());
+
+        let editHour;
+        do {
+          editHour = prompt('Edite o horário do todo (no formato HH:MM): ');
+          if (!editHour.trim()) {
+            console.log('Por favor, insira um horário válido.');
+          }
+
+          if (!/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(editHour.trim())) {
+            console.log('Por favor, insira um horário válido no formato HH:MM.');
+          }
+
+        } while (!editHour.trim() || !/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(editHour.trim()));
     
         todoList[index].todo = editTodo;
         todoList[index].hour = editHour;
     
         console.log('Todo editado com sucesso');
-    
-        return
       }
     } catch (e) {
       console.log(e.message);

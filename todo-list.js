@@ -1,8 +1,10 @@
 function action() {
 
+  const userChoice = parseInt(document.getElementById('userChoice').value);
+
   const actionInput = message();
   
-    switch (actionInput) {
+    switch (actionInput || userChoice) {
       case 1:
         addTodo();
         redo();
@@ -101,7 +103,7 @@ function editTodo() {
   } else {
     console.log('Informe o ID do todo:');
     console.log('(Exemplo: digite 1 para editar o primeiro todo)');
-    listTodo(); // Listar antes de solicitar o ID
+    listTodo();
 
     const todoID = Number(prompt());
     const index = todoID - 1;
